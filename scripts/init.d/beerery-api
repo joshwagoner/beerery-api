@@ -1,5 +1,5 @@
 ### BEGIN INIT INFO
-# Provides:             beerery json api
+# Provides:             beereryapi
 # Required-Start:
 # Required-Stop:
 # Default-Start:        2 3 4 5
