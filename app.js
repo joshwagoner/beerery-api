@@ -5,8 +5,9 @@ var express = require('express'),
 	path = require('path'),
 	bodyParser = require('body-parser');
 
-var INPUT_CONFIGS_PATH = "config/inputs.json";
-var OUTPUT_CONFIGS_PATH = "config/outputs.json";
+var INPUT_CONFIGS_PATH = "/home/pi/highbank/src/beerery/config/inputs.json";
+var OUTPUT_CONFIGS_PATH = "/home/pi/highbank/src/beerery/config/outputs.json";
+var STATE_FOLDER_PATH = "/home/pi/highbank/src/beerery/state/";
 
 function loadJSONFile(path, loaded){
 	if (loaded){
@@ -126,7 +127,7 @@ app.post("/config/inputs/:inputId", function(req, res, next) {
 });
 
 app.get("/config/outputs", function(req, res) {
-	respondWithJSON("config/outputs.json", res);
+	respondWithJSON(OUTPUT_CONFIGS_PATH, res);
 });
 
 app.get("/config/outputs/:outputId", function(req, res) {
@@ -165,13 +166,13 @@ app.post("/config/outputs/:outputId", function(req, res, next) {
 app.get("/inputs/:inputId", function(req, res) {
 	var inputId = req.params.inputId;
 
-	respondWithJSON("state/input_" + inputId + ".json", res);
+	respondWithJSON(STATE_FOLDER_PATH + "input_" + inputId + ".json", res);
 });
 
 app.get("/outputs/:outputId", function(req, res) {
 	var outputId = req.params.outputId;
 
-	respondWithJSON("state/output_" + outputId + ".json", res);
+	respondWithJSON(STATE_FOLDER_PATH + "output_" + outputId + ".json", res);
 });
 
 http.createServer(app).listen(app.get('port'), function(){
