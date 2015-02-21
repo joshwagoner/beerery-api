@@ -206,9 +206,9 @@ app.post("/config/inputs", function(req, res) {
 
 app.delete("/config/inputs/:inputId", function(req, res, next) {
 	var inputId = req.params.inputId;
-	var newConfig = req.body;
+	var config = req.body;
 
-	removeConfigItem(inputId, INPUT_CONFIGS_PATH, newConfig, res, next);
+	removeConfigItem(inputId, INPUT_CONFIGS_PATH, config, res, next);
 });
 
 app.get("/config/outputs", function(req, res) {
@@ -244,6 +244,34 @@ app.put("/config/outputs/:outputId", function(req, res, next) {
 	//todo: add some validation of the config passed
 
 	updateConfigItem(outputId, OUTPUT_CONFIGS_PATH, newConfig, res);
+});
+
+app.post("/config/outputs", function(req, res) {
+	// create a new id
+	var outputID = guid();
+	var newConfig = req.body;
+
+	// add the id to the data sent from the client
+	newConfig.id = outputID;
+
+	// save to the input file
+	addConfigItem(OUTPUT_CONFIGS_PATH, newConfig, function(error) {
+		if (error) {
+			res.status(404).send('Not found');
+		} else {
+			res.writeHead(200, {
+				'Content-Type': 'application/json'
+			});
+			res.end(JSON.stringify(newConfig));
+		}
+	});
+});
+
+app.delete("/config/outputs/:inputId", function(req, res, next) {
+	var inputId = req.params.inputId;
+	var config = req.body;
+
+	removeConfigItem(inputId, OUTPUT_CONFIGS_PATH, config, res, next);
 });
 
 app.get("/inputs/:inputId", function(req, res) {
