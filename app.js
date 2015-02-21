@@ -117,10 +117,11 @@ app.get("/config/inputs/:inputId", function(req, res) {
 	});
 });
 
-app.post("/config/inputs/:inputId", function(req, res, next) {
+app.put("/config/inputs/:inputId", function(req, res, next) {
 	var inputId = req.params.inputId;
 	var newConfig = req.body;
 
+	console.log(newConfig);
 	//todo: add some validation of the config passed
 
 	updateConfigItem(inputId, INPUT_CONFIGS_PATH, newConfig, res);
@@ -154,7 +155,7 @@ app.get("/config/outputs/:outputId", function(req, res) {
 	});
 });
 
-app.post("/config/outputs/:outputId", function(req, res, next) {
+app.put("/config/outputs/:outputId", function(req, res, next) {
 	var outputId = req.params.outputId;
 	var newConfig = req.body;
 
